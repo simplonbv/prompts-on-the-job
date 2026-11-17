@@ -30,6 +30,21 @@ setup() {
         $M seed_smoke_fixture --slug "$HUB_SLUG" --name "$HUB_NAME" \
             --email "$ADMIN_EMAIL" --password "$ADMIN_PASSWORD" --skip-checks
         $M hub_face "$HUB_SLUG" apps --apps prompts
+        # Two-step sign-in is OFF for the first administrator until they
+        # switch it on themselves (Preferences → Account). Left on, the code is
+        # sent by e-mail, and a fresh installation has no mail relay yet
+        # (EMAIL_BACKEND is the console), so nobody could sign in. Only on the
+        # first start: a later opt-in is never undone by a restart.
+        $M shell -c "
+from django.contrib.auth import get_user_model
+from core.directory.models import UserProfile
+from core.tenant import ensure_db_alias_loaded, org_slug_to_db_alias
+user = get_user_model().objects.get(email='$ADMIN_EMAIL')
+hub = org_slug_to_db_alias('$HUB_SLUG')
+ensure_db_alias_loaded(hub)
+for alias in ('default', hub):
+    UserProfile.objects.using(alias).filter(user_id=user.pk).update(two_factor_auth=False)
+"
     fi
     $M shell -c "
 from configuration.models import Organisation

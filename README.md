@@ -41,6 +41,17 @@ Prompts, makes `ADMIN_EMAIL` its administrator and sets the VNG theme.
 The repositories are private until the handover to the VNG, hence the token;
 it is used in one build step and not kept in the image.
 
+## Two-step sign-in is off at first
+
+The first administrator (`ADMIN_EMAIL`) starts **without** two-step sign-in.
+Kik-OS sends its code by e-mail, and a new installation has no mail relay yet
+(`EMAIL_BACKEND` is the console), so with it on nobody could sign in. Set up
+the mail (`EMAIL_BACKEND` and the SMTP settings in `.env`) and then switch it on
+under Preferences → Account; people the administrator invites later start with
+the platform's default, which is on. Until then the first administrator's
+account is protected by its password alone: use a long one, and put TLS in front
+of the site.
+
 ## Upgrade
 
 Bump `KIKARON_REF` and/or `KIK_PROMPTS_REF` in `versions.env`, then build and
