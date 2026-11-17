@@ -36,6 +36,10 @@
     --body-bg: var(--colour-vng-grey-light);
     --colour-base: var(--colour-vng-grey-light);
     --colour-base-light: #ffffff;
+    /* Surfaces (cards, wells, plates) are plain white, not the Patterns'
+       80% frost: white cards on the cool grey ground, whatever they stand on. */
+    --pat-surface-background-colour: #ffffff;
+    --pat-surface-background-colour-hover: #ffffff;
     --colour-base-background: var(--colour-vng-grey-light);
     --body-font-colour: var(--colour-vng-text);
     --colour-text: var(--colour-vng-text);
