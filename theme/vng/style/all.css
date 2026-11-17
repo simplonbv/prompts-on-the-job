@@ -50,6 +50,8 @@
     --pat-card-border: 1px solid var(--colour-vng-hairline);
     --pat-card-box-shadow: none;
     --pat-card-backdrop-filter: none;
+    /* A card that opens something lifts on hover: its hairline plus a soft navy shadow. */
+    --pat-card-hover-box-shadow: 0 0 0 1px var(--colour-vng-hairline), 0 6px 18px -6px rgba(20, 52, 98, .22), 0 1px 3px rgba(20, 52, 98, .08);
     /* The rows of a column table are plates of their own: their ring is the
        same hairline. */
     --pat-table-row-box-shadow: 0 0 0 1px var(--colour-vng-hairline);
@@ -80,6 +82,8 @@
     --pat-rich-header-level-2-font-weight: 700;
     --pat-well-well-header-font-family: var(--vng-font-family);
     --pat-well-well-header-font-weight: 700;
+    /* A well's title a step smaller than the Patterns' 28px. */
+    --pat-well-well-header-font-size: 22px;
     --pat-well-header-text-colour: var(--colour-vng-blue);
 
     /* ── Shape: 20px on cards and wells, 12px on buttons and fields ──── */
@@ -91,6 +95,8 @@
     --pat-form-input-field-border-radius: 12px;
     --pat-form-fields-border-radius: 12px;
     --pat-message-border-radius: var(--border-radii-medium);
+    /* Wells (the Patterns' 30px) a step tighter: top, bottom and sides all follow. */
+    --pat-well-padding: 20px;
 
     /* ── Lift: soft, small, navy-tinted ─────────────────────────────── */
     --soft-shadow: 0 2px 8px rgba(20, 52, 98, .08), 0 1px 2px rgba(20, 52, 98, .05);
@@ -110,9 +116,11 @@
        but paints no gradient of the page's colour over what it stands on
        (main-toolbar.css reads this as the plate's colour). */
     --kik-main-toolbar-background-colour: transparent;
-    /* …and the blur fades out over a longer reach below the bar, not in a
-       hard step from sharp to soft (toolbar-shade: 32px by default). */
-    --kik-toolbar-shade-reach: 80px;
+    /* …and the blur reaches only a little below the bar (toolbar-shade: 32px by
+       default), not a tall band under it. */
+    --kik-toolbar-shade-reach: 16px;
+    /* The plate's mask runs from its top to its foot, no opaque stretch. */
+    --kik-toolbar-mask-hold: 0;
 
     /* ── Buttons: VNG navy by default ───────────────────────────────── */
     --button-background-colour-default: var(--colour-vng-blue);
@@ -124,7 +132,7 @@
        Read by the start page's component; listed here so this theme is the
        one place an installation's look is decided. Every purple below is the
        app colour or a mix of it. */
-    --kik-prompts-start-head-background: color-mix(in srgb, var(--app-colour-prompts) 12%, white);
+    --kik-prompts-start-head-background: color-mix(in srgb, var(--app-colour-prompts) 10%, color-mix(in srgb, white 92%, black));
     /* The band's title and byline: black, at two strengths. */
     --kik-prompts-start-head-text: rgb(0 0 0 / .87);
     --kik-prompts-start-head-byline: rgb(0 0 0 / .58);
