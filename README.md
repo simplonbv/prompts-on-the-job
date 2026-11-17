@@ -28,11 +28,16 @@ Which commit of each goes in is pinned in [`versions.env`](versions.env).
 
 ```bash
 cp .env.example .env          # fill in HOST, SECRET_KEY, passwords, admin
-export GITHUB_TOKEN=…         # read access to cornae/kikaron, kik-prompts, Kik-OS
+export GITHUB_TOKEN=…         # read access to cornae/kikaron, kik-prompts, kik-os, patterns
 docker compose --env-file versions.env --env-file .env build \
     --secret id=github_token,env=GITHUB_TOKEN
 docker compose --env-file versions.env --env-file .env up -d
 ```
+
+With **podman-compose**, which takes one `--env-file`, join the two first:
+`cat versions.env .env > .env.all` and pass `--env-file .env.all`. On an
+SELinux host the containers sharing the static volume run with
+`label=disable` (in `compose.yaml`), otherwise nginx cannot read it.
 
 The site answers on port 8080; put TLS in front of it. The first start
 migrates a fresh database, creates the hub (`HUB_SLUG`) as an Apps hub with

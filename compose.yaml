@@ -23,11 +23,15 @@ x-app: &app
     # setup compiles the CSS (it needs the database) and copies static/ here;
     # nginx serves /assets/ from it. Refreshed on every start of setup, so an
     # upgraded image never serves the previous version's files.
-    - static:/srv/static
+    - static:/srv/static:z
+  # On an SELinux host (Fedora, RHEL) podman gives a named volume the private
+  # label of the first container that mounts it, so the others could not read
+  # it. The containers sharing `static` run unlabelled; elsewhere a no-op.
+  security_opt: [label=disable]
 
 services:
   db:
-    image: postgres:16
+    image: docker.io/library/postgres:16
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -39,7 +43,7 @@ services:
       retries: 20
 
   redis:
-    image: redis:7
+    image: docker.io/library/redis:7
 
   setup:
     <<: *app
@@ -61,11 +65,12 @@ services:
       setup: {condition: service_completed_successfully}
 
   nginx:
-    image: nginx:1.27
+    image: docker.io/library/nginx:1.27
     ports: ["8080:80"]
     volumes:
-      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - static:/srv/static:ro
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro,z
+      - static:/srv/static:ro,z
+    security_opt: [label=disable]
     depends_on: [web, asgi]
     restart: unless-stopped
 
