@@ -50,6 +50,17 @@
     --pat-card-border: 1px solid var(--colour-vng-hairline);
     --pat-card-box-shadow: none;
     --pat-card-backdrop-filter: none;
+    /* The rows of a column table are plates of their own: their ring is the
+       same hairline. */
+    --pat-table-row-box-shadow: 0 0 0 1px var(--colour-vng-hairline);
+
+    /* ── Hover: a neutral wash, not the app colour ──────────────────────
+       The Patterns' surface hover is the app colour mixed 12% into the
+       ground, so every hovered toolbar button, card and tab went purple.
+       No mix at all here, and the ground a touch darker than white: a quiet
+       grey step. */
+    --pat-surface-hover-mix: 0%;
+    --pat-surface-hover-ground: color-mix(in srgb, black 4%, white);
     --colour-base-background: var(--colour-vng-grey-light);
     --body-font-colour: var(--colour-vng-text);
     --colour-text: var(--colour-vng-text);
@@ -85,9 +96,14 @@
     --soft-shadow: 0 2px 8px rgba(20, 52, 98, .08), 0 1px 2px rgba(20, 52, 98, .05);
     --default-box-shadow: none;
     --pat-well-box-shadow: none;
-    /* Popovers (pat-tooltip) float clearly over the page: the Patterns
-       default (0 4px 14px -2px at 8%) all but vanishes on the light ground. */
-    --pat-tooltip-box-shadow: 0 12px 32px -8px rgba(20, 52, 98, .22), 0 2px 6px rgba(20, 52, 98, .08);
+    /* Popovers float clearly over the page. Two tokens, one shadow: a
+       tooltip (--pat-tooltip-box-shadow; the Patterns default all but
+       vanishes on a light ground) and a context menu such as the app menu
+       (--pat-context-menu-shadow, which falls back to --default-box-shadow,
+       and that is none here, so it had no shadow at all). */
+    --vng-popover-shadow: 0 12px 32px -8px rgba(20, 52, 98, .22), 0 2px 6px rgba(20, 52, 98, .08);
+    --pat-tooltip-box-shadow: var(--vng-popover-shadow);
+    --pat-context-menu-shadow: var(--vng-popover-shadow);
 
     /* ── The window's main bar: the soft edge's blur, no colour ────────
        Its plate keeps the masked backdrop blur that fades out at its foot,
