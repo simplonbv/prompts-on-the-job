@@ -71,6 +71,12 @@
     --default-box-shadow: none;
     --pat-well-box-shadow: none;
 
+    /* ── The window's main bar: the soft edge's blur, no colour ────────
+       Its plate keeps the masked backdrop blur that fades out at its foot,
+       but paints no gradient of the page's colour over what it stands on
+       (main-toolbar.css reads this as the plate's colour). */
+    --kik-main-toolbar-background-colour: transparent;
+
     /* ── Buttons: VNG navy by default ───────────────────────────────── */
     --button-background-colour-default: var(--colour-vng-blue);
     --button-background-colour-default-hover: var(--colour-vng-blue-hover);
