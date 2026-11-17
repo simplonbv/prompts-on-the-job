@@ -40,6 +40,12 @@
        80% frost: white cards on the cool grey ground, whatever they stand on. */
     --pat-surface-background-colour: #ffffff;
     --pat-surface-background-colour-hover: #ffffff;
+    /* THE CARD TOKENS (Patterns: well, card rows, message, and Prompts'
+       cards): plain white, a clear hairline, no shadow, no blur. */
+    --pat-card-background-colour: #ffffff;
+    --pat-card-border: 1px solid var(--colour-vng-hairline);
+    --pat-card-box-shadow: none;
+    --pat-card-backdrop-filter: none;
     --colour-base-background: var(--colour-vng-grey-light);
     --body-font-colour: var(--colour-vng-text);
     --colour-text: var(--colour-vng-text);
