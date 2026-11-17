@@ -39,7 +39,10 @@ Organisation.objects.using('default').filter(slug='$HUB_SLUG').update(
     $M create_org_databases
     python scripts/compile_sass.py
     # Hand the compiled tree to nginx (the shared volume).
-    rm -rf /srv/static/* && cp -a static/. /srv/static/
+    # -L: static/libraries/patterns is a link into the installed patterns
+    # package (kikaron core/settings.py); nginx has no such path, so the files
+    # themselves are copied.
+    rm -rf /srv/static/* && cp -aL static/. /srv/static/
 }
 
 case "${1:-web}" in
