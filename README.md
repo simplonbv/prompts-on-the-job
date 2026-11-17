@@ -6,7 +6,7 @@ repositories together:
 
 | | |
 | --- | --- |
-| **Kik-OS**, the platform | runs from [cornae/kikaron](https://github.com/cornae/kikaron) with only Kik-OS and Prompts switched on, until Kik-OS is a platform of its own (see [cornae/Kik-OS](https://github.com/cornae/Kik-OS)) |
+| **Kik-OS**, the platform | runs from [cornae/kikaron](https://github.com/cornae/kikaron) with only Kik-OS and Prompts switched on, until Kik-OS is a platform of its own (see [cornae/kik-os](https://github.com/cornae/kik-os)) |
 | **Prompts**, the app | [cornae/kik-prompts](https://github.com/cornae/kik-prompts), whose `prompts/` replaces kikaron's own copy in the image |
 
 Which commit of each goes in is pinned in [`versions.env`](versions.env).

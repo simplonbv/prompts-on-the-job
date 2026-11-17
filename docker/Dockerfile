@@ -6,7 +6,7 @@
 #
 # Both repositories are private until the handover, so the build needs a
 # GitHub token with read access to cornae/kikaron, cornae/kik-prompts and
-# cornae/Kik-OS (a pip dependency of kikaron), passed as a build secret:
+# cornae/kik-os (a pip dependency of kikaron), passed as a build secret:
 #
 #   docker compose build --secret id=github_token,env=GITHUB_TOKEN
 #
