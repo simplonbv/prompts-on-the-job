@@ -1,62 +1,61 @@
 /* VNG */
 /* VNG — the theme of Prompts on the job, after the design "Prompts
- * startpagina" (Ontwerp 2, 2026-11-17).
+ * startpagina" (Ontwerp 2, 2026-11-17), in VNG's own colours.
  *
  * Tokens only: one :root block of custom properties, no selector of its own,
  * no @import. Kik-OS draws everything; a theme only tells it which values to
  * use. Installed into the image as static/themes/vng-potj/ and set as the
  * hub's only theme by docker/entrypoint.sh (extra_themes, themes_exclusive).
  *
- * The values are those of the design: VNG navy, a cool light-grey page, white
- * cards at 12px corners, Prompts' own purple for the app's own actions, and
- * one colour per phase — Begrijpen blue, Proberen orange, Doen green. Text
- * colours meet 4.5:1 on white. */
+ * Colours: VNG's 2025 brandguide, as kikaron's own VNG theme
+ * (static/themes/vng) has it — Donkerblauw #143462 as the brand, the
+ * guide's colours for the three phases. Prompts' purple is never stated
+ * here: it and every shade of it derive from the app's own colour,
+ * --app-colour-prompts, so the app keeps one purple wherever it runs.
+ * Where white text stands on a colour, the colour is darkened with its
+ * guide twin (color-mix) until the pair meets 4.5:1. */
 
 :root {
-    /* ── Palette ────────────────────────────────────────────────────── */
-    --colour-vng-navy:        #004488;
-    --colour-vng-navy-dark:   #002a54;
-    --colour-vng-blue:        #0277bd;
-    --colour-vng-sky:         #e1f5fe;
-    --colour-vng-orange:      #c25700;
-    --colour-vng-orange-text: #b84f00;
-    --colour-vng-orange-tint: #fff0e0;
-    --colour-vng-green:       #1d7a4a;
-    --colour-vng-green-text:  #1d6b43;
-    --colour-vng-purple:      #6d28d9;
-    --colour-vng-purple-tint: #ede7f8;
-    --colour-vng-purple-line: #cdbdf0;
-    --colour-vng-page:        #f8f9fa;
-    --colour-vng-grey:        #e9ecef;
-    --colour-vng-line:        #dee2e6;
+    /* ── VNG palette (brandguide 2025) ───────────────────────────────── */
+    --colour-vng-cyan:        #00a1e5;
+    --colour-vng-blue:        #143462;   /* Donkerblauw — the brand */
+    --colour-vng-blue-hover:  #2b4771;
+    --colour-vng-blue-dark:   #0d2444;
+    --colour-vng-mid-blue:    #0079bb;   --colour-vng-mid-blue-dark:   #202258;
+    --colour-vng-orange:      #ec5e00;   --colour-vng-orange-dark:     #602100;
+    --colour-vng-hard-green:  #00a353;   --colour-vng-hard-green-dark: #004d39;
+    --colour-vng-sky-tint:    #e6f6fe;
+    --colour-vng-grey-light:  #f8f9fa;
+    --colour-vng-grey:        #eef0f3;
+    --colour-vng-line:        #e3e6ea;
     --colour-vng-hairline:    #c9ced6;
-    --colour-vng-text:        #1a1a1a;
-    --colour-vng-text-muted:  #52525b;
+    --colour-vng-text:        #464646;
+    --colour-vng-text-muted:  #6b6f75;
 
     /* ── Ground, text, links ───────────────────────────────────────── */
-    --body-bg: var(--colour-vng-page);
-    --colour-base: var(--colour-vng-page);
+    --body-bg: var(--colour-vng-grey-light);
+    --colour-base: var(--colour-vng-grey-light);
     --colour-base-light: #ffffff;
-    --colour-base-background: var(--colour-vng-page);
+    --colour-base-background: var(--colour-vng-grey-light);
     --body-font-colour: var(--colour-vng-text);
     --colour-text: var(--colour-vng-text);
     --colour-byline: var(--colour-vng-text-muted);
-    --colour-accent: var(--colour-vng-navy);
-    --colour-link: var(--colour-vng-navy);
-    --colour-link-hover: var(--colour-vng-navy-dark);
+    --colour-accent: var(--colour-vng-blue);
+    --colour-link: var(--colour-vng-blue);
+    --colour-link-hover: var(--colour-vng-blue-hover);
     --colour-separation-lines: var(--colour-vng-line);
     --default-border-colour: var(--colour-vng-line);
 
-    /* ── Type ──────────────────────────────────────────────────────── */
-    --vng-font-family: Avenir, 'Nunito Sans', 'Segoe UI', system-ui, sans-serif;
+    /* ── Type: Figtree where the system has it, else a clean sans ───── */
+    --vng-font-family: 'Figtree', 'Segoe UI', system-ui, Arial, sans-serif;
     --body-font-family: var(--vng-font-family);
     --pat-rich-header-level-1-font-family: var(--vng-font-family);
-    --pat-rich-header-level-1-font-weight: 800;
+    --pat-rich-header-level-1-font-weight: 700;
     --pat-rich-header-level-2-font-family: var(--vng-font-family);
-    --pat-rich-header-level-2-font-weight: 800;
+    --pat-rich-header-level-2-font-weight: 700;
     --pat-well-well-header-font-family: var(--vng-font-family);
-    --pat-well-well-header-font-weight: 800;
-    --pat-well-header-text-colour: var(--colour-vng-navy);
+    --pat-well-well-header-font-weight: 700;
+    --pat-well-header-text-colour: var(--colour-vng-blue);
 
     /* ── Shape: 12px everywhere, discs stay discs ───────────────────── */
     --border-radii: 12px;
@@ -66,35 +65,39 @@
     --pat-form-fields-border-radius: 12px;
 
     /* ── Lift: soft, small, navy-tinted ─────────────────────────────── */
-    --soft-shadow: 0 2px 8px rgba(0, 42, 84, .08), 0 1px 2px rgba(0, 42, 84, .05);
+    --soft-shadow: 0 2px 8px rgba(20, 52, 98, .08), 0 1px 2px rgba(20, 52, 98, .05);
     --default-box-shadow: none;
     --pat-well-box-shadow: none;
 
-    /* ── Buttons: navy by default, Prompts' purple for its own actions ── */
-    --button-background-colour-default: var(--colour-vng-navy);
-    --button-background-colour-default-hover: var(--colour-vng-navy-dark);
-    --pat-button-text-colour: var(--colour-vng-navy);
+    /* ── Buttons: VNG navy by default ───────────────────────────────── */
+    --button-background-colour-default: var(--colour-vng-blue);
+    --button-background-colour-default-hover: var(--colour-vng-blue-hover);
+    --pat-button-text-colour: var(--colour-vng-blue);
     --pat-button-font-weight: 700;
-    --app-colour-prompts: var(--colour-vng-purple);
 
     /* ── Prompts' start page (the design's Ontwerp 2) ──────────────────
        Read by the start page's component; listed here so this theme is the
-       one place an installation's look is decided. */
-    --kik-prompts-start-head-background: var(--colour-vng-purple-tint);
-    --kik-prompts-start-head-text: var(--colour-vng-navy-dark);
+       one place an installation's look is decided. Every purple below is the
+       app colour or a mix of it. */
+    --kik-prompts-start-head-background: color-mix(in srgb, var(--app-colour-prompts) 12%, white);
+    --kik-prompts-start-head-text: var(--colour-vng-blue);
     --kik-prompts-start-sheet-colour: #fcfcfd;
-    --kik-prompts-start-sheet-shadow: 0 -2px 14px rgba(0, 42, 84, .10);
+    --kik-prompts-start-sheet-shadow: 0 -2px 14px rgba(20, 52, 98, .10);
     --kik-prompts-start-card-shadow: var(--soft-shadow);
     --kik-prompts-start-label-colour: var(--colour-vng-text-muted);
     --kik-prompts-start-hairline: var(--colour-vng-hairline);
-    --kik-prompts-start-action: var(--colour-vng-purple);
-    --kik-prompts-start-feature-line: var(--colour-vng-purple-line);
-    --kik-prompts-tone-learn: var(--colour-vng-navy);
-    --kik-prompts-tone-learn-text: var(--colour-vng-navy);
+    --kik-prompts-start-action: color-mix(in srgb, var(--app-colour-prompts) 85%, black);
+    --kik-prompts-start-feature-line: color-mix(in srgb, var(--app-colour-prompts) 35%, white);
+
+    /* The three phases in the guide's colours: Begrijpen blue, Proberen
+       orange, Doen green — the bright one for bars and rings, mixed with its
+       dark twin for text and for buttons carrying white text. */
+    --kik-prompts-tone-learn: var(--colour-vng-mid-blue);
+    --kik-prompts-tone-learn-text: color-mix(in srgb, var(--colour-vng-mid-blue) 80%, var(--colour-vng-mid-blue-dark));
     --kik-prompts-tone-try: var(--colour-vng-orange);
-    --kik-prompts-tone-try-text: var(--colour-vng-orange-text);
-    --kik-prompts-tone-do: var(--colour-vng-green);
-    --kik-prompts-tone-do-text: var(--colour-vng-green-text);
+    --kik-prompts-tone-try-text: color-mix(in srgb, var(--colour-vng-orange) 72%, var(--colour-vng-orange-dark));
+    --kik-prompts-tone-do: var(--colour-vng-hard-green);
+    --kik-prompts-tone-do-text: color-mix(in srgb, var(--colour-vng-hard-green) 60%, var(--colour-vng-hard-green-dark));
     --kik-prompts-crown-colour: var(--colour-vng-orange);
-    --kik-prompts-crown-fill: #fde0c2;
+    --kik-prompts-crown-fill: color-mix(in srgb, var(--colour-vng-orange) 20%, white);
 }
