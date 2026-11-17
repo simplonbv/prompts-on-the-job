@@ -54,7 +54,7 @@
     --vng-font-family: 'Figtree', 'Segoe UI', system-ui, Arial, sans-serif;
     --body-font-family: var(--vng-font-family);
     --pat-rich-header-level-1-font-family: var(--vng-font-family);
-    --pat-rich-header-level-1-font-weight: 700;
+    --pat-rich-header-level-1-font-weight: 600;
     --pat-rich-header-level-2-font-family: var(--vng-font-family);
     --pat-rich-header-level-2-font-weight: 700;
     --pat-well-well-header-font-family: var(--vng-font-family);
