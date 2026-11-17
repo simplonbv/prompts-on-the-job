@@ -93,7 +93,6 @@
        app colour or a mix of it. */
     --kik-prompts-start-head-background: color-mix(in srgb, var(--app-colour-prompts) 12%, white);
     --kik-prompts-start-head-text: var(--colour-vng-blue);
-    --kik-prompts-start-head-shadow: 0 8px 20px -12px rgba(20, 52, 98, .14);
     --kik-prompts-start-sheet-colour: #fcfcfd;
     --kik-prompts-start-sheet-shadow: 0 -2px 14px rgba(20, 52, 98, .10);
     --kik-prompts-start-card-shadow: var(--soft-shadow);
