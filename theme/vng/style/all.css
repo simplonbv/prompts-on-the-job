@@ -80,6 +80,9 @@
        but paints no gradient of the page's colour over what it stands on
        (main-toolbar.css reads this as the plate's colour). */
     --kik-main-toolbar-background-colour: transparent;
+    /* …and the blur fades out over a longer reach below the bar, not in a
+       hard step from sharp to soft (toolbar-shade: 32px by default). */
+    --kik-toolbar-shade-reach: 80px;
 
     /* ── Buttons: VNG navy by default ───────────────────────────────── */
     --button-background-colour-default: var(--colour-vng-blue);
@@ -110,6 +113,11 @@
     --kik-prompts-tone-try-text: color-mix(in srgb, var(--colour-vng-orange) 72%, var(--colour-vng-orange-dark));
     --kik-prompts-tone-do: var(--colour-vng-hard-green);
     --kik-prompts-tone-do-text: color-mix(in srgb, var(--colour-vng-hard-green) 60%, var(--colour-vng-hard-green-dark));
+    /* Prompts' section colours (the accent a page in Begrijpen, Proberen
+       or Doen takes) are the phases' text colours. */
+    --kik-prompts-learn: var(--kik-prompts-tone-learn-text);
+    --kik-prompts-try: var(--kik-prompts-tone-try-text);
+    --kik-prompts-do: var(--kik-prompts-tone-do-text);
     --kik-prompts-crown-colour: var(--colour-vng-orange);
     --kik-prompts-crown-fill: color-mix(in srgb, var(--colour-vng-orange) 20%, white);
 }
