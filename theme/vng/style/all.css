@@ -57,9 +57,11 @@
     --pat-well-well-header-font-weight: 700;
     --pat-well-header-text-colour: var(--colour-vng-blue);
 
-    /* ── Shape: 12px everywhere, discs stay discs ───────────────────── */
-    --border-radii: 12px;
+    /* ── Shape: 20px on cards and wells, 12px on buttons and fields ──── */
+    --border-radii: 20px;
     --border-radii-medium: 12px;
+    --button-border-radius: var(--border-radii-medium);
+    --pat-button-border-radius: var(--border-radii-medium);
     --border-radii-small: 6px;
     --pat-form-input-field-border-radius: 12px;
     --pat-form-fields-border-radius: 12px;
