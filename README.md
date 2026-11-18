@@ -53,8 +53,10 @@ it is used in one build step and not kept in the image.
 
 ## Upgrade
 
-Bump `KIK_OS_REF`, `PATTERNS_REF` and/or `KIK_PROMPTS_REF` in `versions.env`,
-then build and `up -d` again. `setup` migrates, rebuilds the stylesheet and
+Bump `KIK_OS_REF`, `PATTERNS_REF` and/or `KIK_PROMPTS_REF` in `versions.env`
+(or `git pull` this repository), then build and `up -d --force-recreate`: the
+nginx container reads `docker/nginx.conf` when it is created, so a changed
+file only takes effect in a new container. `setup` migrates, rebuilds the stylesheet and
 gathers the static files on every start.
 
 ## Status
