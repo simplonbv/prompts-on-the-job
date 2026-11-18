@@ -121,33 +121,31 @@
        lined up: a step more than the platform's 20px (Daniel, 2026-11-18). */
     --sidebar-padding-top: 30px;
 
-    /* ── The window's main bar: the soft edge's blur, no colour ────────
-       Its plate keeps the masked backdrop blur that fades out at its foot,
-       but paints no gradient of the page's colour over what it stands on
-       (main-toolbar.css reads this as the plate's colour). */
-    --kik-main-toolbar-background-colour: transparent;
-    /* …and the blur reaches only a little below the bar (toolbar-shade: 32px by
+    /* ── The window's main bar: it sits over the page ──────────────────
+       Its plate is the page's colour (main-toolbar.css), so nothing shows
+       through under its controls (Daniel, 2026-11-18; it was a bare blur);
+       the shade reaches only a little below the bar (toolbar-shade: 32px by
        default), not a tall band under it. */
     --kik-toolbar-shade-reach: 16px;
-    /* The plate's mask runs from its top to its foot, no opaque stretch. */
-    --kik-toolbar-mask-hold: 0;
 
     /* ── The window's controls (app menu, maximise, close) ────────────
-       Transparent, ringed in their own ink (Daniel, 2026-11-18): no frost
-       plate, no lift; the ring is the glyph's colour at 45%, so it follows
-       the glyph wherever a page recolours it (Prompts' Start band). */
+       Transparent, ringed in their own ink (Daniel, 2026-11-18): no colour
+       plate, no lift, but frosted — what passes behind them is blurred
+       (--vng-control-frost); the ring is the glyph's colour at 45%, so it
+       follows the glyph wherever a page recolours it (Prompts' Start band). */
+    --vng-control-frost: blur(10px);
     --kik-window-control-background: transparent;
-    --kik-window-control-backdrop-filter: none;
+    --kik-window-control-backdrop-filter: var(--vng-control-frost);
     --kik-window-control-box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 45%, transparent);
     /* …and the app's icon in a bar's title (Patterns' toolbar_title_icon),
        a control in all but behaviour, the same. */
     --pat-toolbar-title-icon-background: transparent;
     --pat-toolbar-title-icon-box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 45%, transparent);
     /* …and the back button (Daniel, 2026-11-18): the same transparent
-       surface and the same ring, here its hairline, which follows the
+       surface, frost and ring, here its hairline, which follows the
        pointed outline (patterns/back-button). */
     --pat-back-button-background-colour: transparent;
-    --pat-back-button-backdrop-filter: none;
+    --pat-back-button-backdrop-filter: var(--vng-control-frost);
     --pat-back-button-drop-shadow: none;
     --pat-back-button-border-colour: color-mix(in srgb, currentColor 45%, transparent);
 
