@@ -143,6 +143,13 @@
        a control in all but behaviour, the same. */
     --pat-toolbar-title-icon-background: transparent;
     --pat-toolbar-title-icon-box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 45%, transparent);
+    /* …and the back button (Daniel, 2026-11-18): the same transparent
+       surface and the same ring, here its hairline, which follows the
+       pointed outline (patterns/back-button). */
+    --pat-back-button-background-colour: transparent;
+    --pat-back-button-backdrop-filter: none;
+    --pat-back-button-drop-shadow: none;
+    --pat-back-button-border-colour: color-mix(in srgb, currentColor 45%, transparent);
 
     /* ── Buttons: VNG navy by default ───────────────────────────────── */
     --button-background-colour-default: var(--colour-vng-blue);

@@ -17,6 +17,9 @@ Which version of each goes in is pinned in [`versions.env`](versions.env).
 
 - [`theme/vng/`](theme/vng/style/all.css) — the VNG theme: custom properties
   only, no selectors, linked between Kik-OS's stylesheet and its components.
+  It is the theme kik-os.cornae.com runs (Kikaron's `static/themes/vng-potj`),
+  kept level with `tools/sync-theme-from-kikaron.sh`; which commit it came
+  from is in [`theme/vng/SYNC.md`](theme/vng/SYNC.md).
 - [`docker/`](docker/) — the image (`Dockerfile`), what it does at start
   (`entrypoint.sh`: migrate, build the stylesheet, gather the static files,
   make the hub, its administrator and the language model) and nginx in front.
