@@ -8,10 +8,9 @@
  * hub's only theme by docker/entrypoint.sh (extra_themes, themes_exclusive).
  *
  * Colours: VNG's 2025 brandguide, as kikaron's own VNG theme
- * (static/themes/vng) has it — Donkerblauw #143462 as the brand, the
- * guide's colours for the three phases. Prompts' purple is never stated
- * here: it and every shade of it derive from the app's own colour,
- * --app-colour-prompts, so the app keeps one purple wherever it runs.
+ * (static/themes/vng) has it — Donkerblauw #143462 as the brand and as
+ * Prompts' app colour (--app-colour-prompts; every shade of it derives from
+ * that token), the guide's colours for the three phases.
  * Where white text stands on a colour, the colour is darkened with its
  * guide twin (color-mix) until the pair meets 4.5:1. */
 
@@ -26,6 +25,7 @@
     --colour-vng-blue-hover:  #2b4771;
     --colour-vng-blue-dark:   #0d2444;
     --colour-vng-mid-blue:    #0079bb;   --colour-vng-mid-blue-dark:   #202258;
+    --colour-vng-purple:      #83589e;   --colour-vng-purple-dark:     #481a55;
     --colour-vng-orange:      #ec5e00;   --colour-vng-orange-dark:     #602100;
     --colour-vng-hard-green:  #00a353;   --colour-vng-hard-green-dark: #004d39;
     --colour-vng-sky-tint:    #e6f6fe;
@@ -50,6 +50,10 @@
     --pat-card-border: 1px solid var(--colour-vng-hairline);
     --pat-card-box-shadow: none;
     --pat-card-backdrop-filter: none;
+    /* …with the normal corners (--border-radii, 20px), not the Patterns'
+       medium 12px: the phase cards, the sheet and every card beside them
+       (Daniel, 2026-11-18). */
+    --pat-card-border-radius: var(--border-radii);
     /* A card that opens something lifts on hover: its hairline plus a soft navy shadow. */
     --pat-card-hover-box-shadow: 0 0 0 1px var(--colour-vng-hairline), 0 6px 18px -6px rgba(20, 52, 98, .22), 0 1px 3px rgba(20, 52, 98, .08);
     /* The rows of a column table are plates of their own: their ring is the
@@ -111,6 +115,12 @@
     --pat-tooltip-box-shadow: var(--vng-popover-shadow);
     --pat-context-menu-shadow: var(--vng-popover-shadow);
 
+    /* ── The window's main bar: more room around it ──────────────────
+       Its padding is the window's inset (--kik-win-inset, main-toolbar.css),
+       which is the sidebar's top padding, so the bar and the sidebar stay
+       lined up: a step more than the platform's 20px (Daniel, 2026-11-18). */
+    --sidebar-padding-top: 30px;
+
     /* ── The window's main bar: the soft edge's blur, no colour ────────
        Its plate keeps the masked backdrop blur that fades out at its foot,
        but paints no gradient of the page's colour over what it stands on
@@ -122,6 +132,18 @@
     /* The plate's mask runs from its top to its foot, no opaque stretch. */
     --kik-toolbar-mask-hold: 0;
 
+    /* ── The window's controls (app menu, maximise, close) ────────────
+       Transparent, ringed in their own ink (Daniel, 2026-11-18): no frost
+       plate, no lift; the ring is the glyph's colour at 45%, so it follows
+       the glyph wherever a page recolours it (Prompts' Start band). */
+    --kik-window-control-background: transparent;
+    --kik-window-control-backdrop-filter: none;
+    --kik-window-control-box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 45%, transparent);
+    /* …and the app's icon in a bar's title (Patterns' toolbar_title_icon),
+       a control in all but behaviour, the same. */
+    --pat-toolbar-title-icon-background: transparent;
+    --pat-toolbar-title-icon-box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 45%, transparent);
+
     /* ── Buttons: VNG navy by default ───────────────────────────────── */
     --button-background-colour-default: var(--colour-vng-blue);
     --button-background-colour-default-hover: var(--colour-vng-blue-hover);
@@ -130,25 +152,56 @@
 
     /* ── Prompts' start page (the design's Ontwerp 2) ──────────────────
        Read by the start page's component; listed here so this theme is the
-       one place an installation's look is decided. Every purple below is the
-       app colour or a mix of it. */
-    --kik-prompts-start-head-background: color-mix(in srgb, var(--app-colour-prompts) 10%, color-mix(in srgb, white 92%, black));
-    /* The band's title and byline: black, at two strengths. */
-    --kik-prompts-start-head-text: rgb(0 0 0 / .87);
-    --kik-prompts-start-head-byline: rgb(0 0 0 / .58);
-    --kik-prompts-start-sheet-colour: #fcfcfd;
-    --kik-prompts-start-sheet-shadow: 0 -2px 14px rgba(20, 52, 98, .10);
-    --kik-prompts-start-card-shadow: var(--soft-shadow);
+       one place an installation's look is decided. Prompts' colour is VNG
+       Donkerblauw (Daniel, 2026-11-18); every tint below is a mix of it. */
+    --app-colour-prompts: var(--colour-vng-blue);
+    /* …and its icon's plate on the apps grid (kik_app_tile.html), which
+       otherwise keeps the native icon's own purple gradient. */
+    --app-plate-top-prompts: color-mix(in srgb, var(--colour-vng-blue) 78%, white);
+    --app-plate-bottom-prompts: var(--colour-vng-blue);
+    /* The band behind the headline and the phases: VNG Donkerblauw, the
+       headline in white, the cards hanging over its lower edge onto the
+       grey ground, a soft watermark of prompt marks in it (Daniel,
+       2026-11-18, the design "Final"). */
+    --kik-prompts-start-head-background: var(--colour-vng-blue);
+    --kik-prompts-start-head-text: #ffffff;
+    --kik-prompts-start-watermark-colour: #ffffff;
+    --kik-prompts-start-watermark-opacity: .07;
+    --kik-prompts-start-head-foot: 0px;
+    --kik-prompts-start-head-foot-small: 0px;
+    --kik-prompts-start-cards-overhang: 6rem;
+    --kik-prompts-start-sheet-offset: 6.5rem;
+    --kik-prompts-start-title-weight: 700;
+    --kik-prompts-start-phase-title-colour: var(--colour-vng-blue);
+    /* The headline's underlines: each phase's colour lifted towards white,
+       so it reads on the navy. */
+    --kik-prompts-tone-learn-light: color-mix(in srgb, var(--colour-vng-purple) 65%, white);
+    --kik-prompts-tone-try-light: var(--colour-vng-orange);
+    --kik-prompts-tone-do-light: var(--colour-vng-hard-green);
+    /* The window's bar over the band: its title white, Share a prompt a
+       white button with navy words; once the band has passed under the bar,
+       the title in the page's ink again, over the theme's blur soft edge. */
+    --kik-prompts-start-bar-text: #ffffff;
+    --kik-prompts-start-bar-action: #ffffff;
+    --kik-prompts-start-bar-action-hover: var(--colour-vng-sky-tint);
+    --kik-prompts-start-bar-action-text: var(--colour-vng-blue);
+    --kik-prompts-start-bar-text-off: var(--colour-vng-blue);
+    /* …and the normal corners (--border-radii), not the page head's medium. */
+    --kik-page-head-icon-border-radius: var(--border-radii);
+    /* No sheet over the band any more: the page's grey ground below it. */
+    --kik-prompts-start-sheet-colour: transparent;
+    --kik-prompts-start-sheet-shadow: 0 0 0 transparent;
+    --kik-prompts-start-card-shadow: none;
     --kik-prompts-start-label-colour: var(--colour-vng-text-muted);
     --kik-prompts-start-hairline: var(--colour-vng-hairline);
     --kik-prompts-start-action: color-mix(in srgb, var(--app-colour-prompts) 85%, black);
     --kik-prompts-start-feature-line: color-mix(in srgb, var(--app-colour-prompts) 35%, white);
 
-    /* The three phases in the guide's colours: Begrijpen blue, Proberen
+    /* The three phases in the guide's colours: Begrijpen purple, Proberen
        orange, Doen green — the bright one for bars and rings, mixed with its
        dark twin for text and for buttons carrying white text. */
-    --kik-prompts-tone-learn: var(--colour-vng-mid-blue);
-    --kik-prompts-tone-learn-text: color-mix(in srgb, var(--colour-vng-mid-blue) 80%, var(--colour-vng-mid-blue-dark));
+    --kik-prompts-tone-learn: var(--colour-vng-purple);
+    --kik-prompts-tone-learn-text: color-mix(in srgb, var(--colour-vng-purple) 85%, var(--colour-vng-purple-dark));
     --kik-prompts-tone-try: var(--colour-vng-orange);
     --kik-prompts-tone-try-text: color-mix(in srgb, var(--colour-vng-orange) 72%, var(--colour-vng-orange-dark));
     --kik-prompts-tone-do: var(--colour-vng-hard-green);
