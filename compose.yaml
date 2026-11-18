@@ -1,5 +1,5 @@
 # Prompts on the job — one installation: the database, Redis, the app (HTTP
-# and WebSockets) and nginx in front. See README.md.
+# and WebSockets, one process) and nginx in front. See README.md.
 #
 #   cp .env.example .env            # and fill it in
 #   docker compose --env-file versions.env --env-file .env build \
@@ -7,38 +7,42 @@
 #   docker compose --env-file versions.env --env-file .env up -d
 
 x-app: &app
-  image: prompts-on-the-job:${KIKARON_REF}-${KIK_PROMPTS_REF}
+  image: prompts-on-the-job:${KIK_OS_REF}-${KIK_PROMPTS_REF}
   build:
     context: .
     dockerfile: docker/Dockerfile
     args:
-      KIKARON_REF: ${KIKARON_REF}
+      KIK_OS_REF: ${KIK_OS_REF}
+      PATTERNS_REF: ${PATTERNS_REF}
       KIK_PROMPTS_REF: ${KIK_PROMPTS_REF}
     secrets: [github_token]
   env_file: [.env]
+  environment:
+    KIK_DATABASE_HOST: db
+    KIK_REDIS_URL: redis://redis:6379/0
   depends_on:
     db: {condition: service_healthy}
     redis: {condition: service_started}
   volumes:
-    # setup compiles the CSS (it needs the database) and copies static/ here;
-    # nginx serves /assets/ from it. Refreshed on every start of setup, so an
-    # upgraded image never serves the previous version's files.
+    # Uploads and the built stylesheet.
+    - data:/srv/data:z
+    # setup gathers the static files here; nginx serves /assets/ from it.
     - static:/srv/static:z
   # On an SELinux host (Fedora, RHEL) podman gives a named volume the private
   # label of the first container that mounts it, so the others could not read
-  # it. The containers sharing `static` run unlabelled; elsewhere a no-op.
+  # it. The containers sharing a volume run unlabelled; elsewhere a no-op.
   security_opt: [label=disable]
 
 services:
   db:
     image: docker.io/library/postgres:16
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${KIK_DATABASE_NAME}
+      POSTGRES_USER: ${KIK_DATABASE_USER}
+      POSTGRES_PASSWORD: ${KIK_DATABASE_PASSWORD}
     volumes: [db:/var/lib/postgresql/data]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U ${KIK_DATABASE_USER} -d ${KIK_DATABASE_NAME}"]
       interval: 5s
       retries: 20
 
@@ -57,21 +61,14 @@ services:
     depends_on:
       setup: {condition: service_completed_successfully}
 
-  asgi:
-    <<: *app
-    command: asgi
-    restart: unless-stopped
-    depends_on:
-      setup: {condition: service_completed_successfully}
-
   nginx:
     image: docker.io/library/nginx:1.27
-    ports: ["8080:80"]
+    ports: ["${PORT:-8080}:80"]
     volumes:
       - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro,z
       - static:/srv/static:ro,z
     security_opt: [label=disable]
-    depends_on: [web, asgi]
+    depends_on: [web]
     restart: unless-stopped
 
 secrets:
@@ -80,4 +77,5 @@ secrets:
 
 volumes:
   db:
+  data:
   static:
