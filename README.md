@@ -32,7 +32,7 @@ Which version of each goes in is pinned in [`versions.env`](versions.env).
 
 ```bash
 cp .env.example .env          # fill in HOST, KIK_SECRET_KEY, the passwords, the admin, the model
-export GITHUB_TOKEN=…         # read access to cornae/kik-os, patterns, kik-prompts
+export GITHUB_TOKEN=$(gh auth token)   # or a classic token with the repo scope: see below
 docker compose --env-file versions.env --env-file .env build \
     --secret id=github_token,env=GITHUB_TOKEN
 docker compose --env-file versions.env --env-file .env up -d
@@ -52,7 +52,12 @@ People and their roles, the hub and the language models are managed under
 `/beheer/` (the administration), as the first administrator.
 
 The repositories are private until the handover to the VNG, hence the token;
-it is used in one build step and not kept in the image.
+it is used in one build step and not kept in the image. It must read
+cornae/kik-os, cornae/patterns and cornae/kik-prompts — accept the
+collaborator invitation for each first. They belong to a personal account,
+not an organisation, so a **fine-grained** token cannot reach them: use
+`gh auth token` (after `gh auth login`) or a classic token with the `repo`
+scope. Nothing else is fetched; Kikaron is not needed.
 
 ## Upgrade
 
