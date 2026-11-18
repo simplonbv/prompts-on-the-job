@@ -60,7 +60,11 @@ gathers the static files on every start.
 ## Status
 
 2026-11-18: built from Kik-OS, Patterns and kik-prompts alone, and run end to
-end on a fresh database (podman). The Helm chart for Haven comes later, next
+end on a fresh database (podman): sign-in, every Prompts screen, writing,
+rating and commenting on prompts, the assistant workspace, Check and Test
+answered live, challenges, help — no errors. One thing Kik-OS does not do yet:
+a new comment appears for its writer at once, for other readers when they
+reload the page (live updates of comment threads are still Kikaron's). The Helm chart for Haven comes later, next
 to the compose file.
 
 Licence: EUPL-1.2 (see `LICENSE`).
