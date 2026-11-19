@@ -235,14 +235,37 @@
 }
 
 @media (min-width: 681px) {
-    .pat-toolbar.kik-win-main-toolbar {
-        /* THE MAIN TOOLBAR'S CONTROLS ARE 40PX (Daniel, 2026-11-19): one value —
-           the Patterns' --pat-toolbar-control-height — sizes every control on
-           the bar (buttons and discs, tabs, selects, the back button, the
-           window's close and menu) with its line height and its text. The main
-           toolbar only — every other bar keeps the Patterns' 35px — and a tablet
-           and up only: on a phone (680px and less) it keeps 35px too. */
-        --pat-toolbar-control-height: 40px;
+    /* EVERY MAIN TOOLBAR'S CONTROLS ARE 40PX (Daniel, 2026-11-19) — the bar at
+       the top of an app's page and the window's close and menu beside it; the
+       bars in wells, modals and the like keep the Patterns' 35px. A tablet and
+       up only: on a phone (680px and less) every bar keeps 35px.
+
+       The Patterns derive a bar's sizes from --pat-toolbar-control-height once,
+       on :root, so a value set on one bar alone changes nothing: each size is
+       restated here where it applies. The main bar's controls, line height
+       and text; the window's controls, which float outside the bar; and, on
+       the app's pane, the room the bar keeps for them and the bar's own
+       height (main-toolbar's --kik-win-slot and --kik-win-toolbar-height,
+       composed here from the same 40px). */
+    :root {
+        --vng-main-toolbar-control-height: 40px;
+    }
+    html #app-space .pat-toolbar.kik-win-main-toolbar {
+        --pat-toolbar-control-height: var(--vng-main-toolbar-control-height);
+        --pat-toolbar-button-height: var(--vng-main-toolbar-control-height);
+        --pat-toolbar-button-line-height: var(--vng-main-toolbar-control-height);
+        --pat-toolbar-font-size: calc(var(--vng-main-toolbar-control-height) * 18 / 35);
+        --pat-back-button-height: var(--vng-main-toolbar-control-height);
+        --pat-back-button-line-height: var(--vng-main-toolbar-control-height);
+        --pat-back-button-font-size: calc(var(--vng-main-toolbar-control-height) * 18 / 35);
+    }
+    html #app-space .application-body.state-on > .kik-win-toggle {
+        --pat-toolbar-button-height: var(--vng-main-toolbar-control-height);
+        --pat-toolbar-button-line-height: var(--vng-main-toolbar-control-height);
+    }
+    html #app-space .application-body.state-on {
+        --kik-win-slot: calc(var(--vng-main-toolbar-control-height) + var(--kik-window-control-gap, var(--kik-toolbar-control-gap, var(--pat-toolbar-element-separation, 0.5rem))));
+        --kik-win-toolbar-height: calc(var(--vng-main-toolbar-control-height) + 2 * var(--kik-win-inset));
     }
 }
 
