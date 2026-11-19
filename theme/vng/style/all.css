@@ -246,10 +246,14 @@
     }
 }
 
-/* THE CLOSE IS RED (Daniel, 2026-11-19): its cross and its ring, which is the
-   cross's colour at 45%, hovered or not. Set on the close alone — the menu
-   beside it shares --kik-window-control-text-colour and keeps it. */
+/* THE CLOSE IS RED (Daniel, 2026-11-19): a white cross on a red fill, a
+   darker red under the pointer, and no ring (the cross's colour at 45% would
+   be a white haze on the red). Set on the close alone — the menu beside it
+   shares the --kik-window-control-* tokens and keeps them. */
 #app-space .application-body.state-on > .kik-win-close {
-    --kik-window-control-text-colour: var(--colour-vng-red);
-    --kik-window-control-text-colour-hover: var(--colour-vng-red);
+    --kik-window-control-text-colour: white;
+    --kik-window-control-text-colour-hover: white;
+    --kik-window-control-background: var(--colour-vng-red);
+    --kik-window-control-background-hover: color-mix(in srgb, var(--colour-vng-red) 82%, black);
+    --kik-window-control-box-shadow: none;
 }
