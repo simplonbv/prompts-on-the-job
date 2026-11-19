@@ -137,6 +137,12 @@
        (--vng-control-frost); the ring is the glyph's colour at 45%, so it
        follows the glyph wherever a page recolours it (Prompts' Start band). */
     --vng-control-frost: blur(10px);
+    /* THE MODAL'S BACKDROP stays see-through and frosted. Patterns colours it
+       with the surface, which this theme makes solid white, so an open modal
+       stood on an opaque white sheet; it is its own pale veil instead, and the
+       frost the controls wear. */
+    --pat-modal-panel-space-background-colour: rgba(255, 255, 255, 0.4);
+    --pat-modal-panel-space-backdrop-filter: blur(10px) saturate(1.5);
     --kik-window-control-background: transparent;
     --kik-window-control-backdrop-filter: var(--vng-control-frost);
     --kik-window-control-box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 45%, transparent);
