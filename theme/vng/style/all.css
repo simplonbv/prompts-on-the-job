@@ -127,6 +127,9 @@
        the shade reaches only a little below the bar (toolbar-shade: 32px by
        default), not a tall band under it. */
     --kik-toolbar-shade-reach: 16px;
+    /* …square, edge to edge (Daniel, 2026-11-19): where the bar's plate is
+       an opaque pill (a page without the soft edge) it does not round. */
+    --kik-main-toolbar-radius: 0;
 
     /* ── The window's controls (app menu, maximise, close) ────────────
        Transparent, ringed in their own ink (Daniel, 2026-11-18): no colour
