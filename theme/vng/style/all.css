@@ -139,8 +139,10 @@
     /* THE TOOLBAR'S CONTROLS ARE HALF AS BIG AGAIN (Daniel, 2026-11-19): the
        close and menu, the back arrow, the tabs and the quick functions all
        take their height from this one token (Patterns: the button height,
-       35px), so they grow together. Form buttons keep --button-height. */
+       35px), so they grow together; the line height with it, so their
+       labels stay in the middle. Form buttons keep --button-height. */
     --pat-toolbar-button-height: calc(var(--button-height) * 1.5);
+    --pat-toolbar-button-line-height: calc(var(--button-line-height) * 1.5);
     --vng-control-frost: blur(10px);
     /* THE MODAL'S BACKDROP stays see-through and frosted. Patterns colours it
        with the surface, which this theme makes solid white, so an open modal
