@@ -33,6 +33,7 @@
     --colour-vng-grey:        #eef0f3;
     --colour-vng-line:        #e3e6ea;
     --colour-vng-hairline:    #c9ced6;
+    --colour-vng-red:         #c8102e;   /* the close (not in the house palette) */
     --colour-vng-text:        #464646;
     --colour-vng-text-muted:  #6b6f75;
 
@@ -145,11 +146,12 @@
     --pat-modal-panel-space-backdrop-filter: blur(10px) saturate(1.5);
     --kik-window-control-background: transparent;
     --kik-window-control-backdrop-filter: var(--vng-control-frost);
-    --kik-window-control-box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 45%, transparent);
+    /* The rings are 2px (Daniel, 2026-11-19), here and on every control below. */
+    --kik-window-control-box-shadow: inset 0 0 0 2px color-mix(in srgb, currentColor 45%, transparent);
     /* …and the app's icon in a bar's title (Patterns' toolbar_title_icon),
        a control in all but behaviour, the same. */
     --pat-toolbar-title-icon-background: transparent;
-    --pat-toolbar-title-icon-box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 45%, transparent);
+    --pat-toolbar-title-icon-box-shadow: inset 0 0 0 2px color-mix(in srgb, currentColor 45%, transparent);
     /* …and the back button (Daniel, 2026-11-18): the same transparent
        surface, frost and ring, here its hairline, which follows the
        pointed outline (patterns/back-button). */
@@ -157,6 +159,9 @@
     --pat-back-button-backdrop-filter: var(--vng-control-frost);
     --pat-back-button-drop-shadow: none;
     --pat-back-button-border-colour: color-mix(in srgb, currentColor 45%, transparent);
+    --pat-back-button-border-width: 2px;
+    /* …and the bar's buttons, discs and tab groups (Patterns' ring, 1px). */
+    --pat-toolbar-button-box-shadow: 0 0 0 2px light-dark(rgba(0, 0, 0, 0.12), rgba(255, 255, 255, 0.14));
 
     /* ── Buttons: VNG navy by default ───────────────────────────────── */
     --button-background-colour-default: var(--colour-vng-blue);
@@ -230,12 +235,21 @@
 }
 
 @media (min-width: 681px) {
-    :root {
-        /* THE TOOLBAR'S CONTROLS ARE 45PX (Daniel, 2026-11-19): one value —
-           the Patterns' --pat-toolbar-control-height — sizes every control on a
-           bar (buttons and discs, tabs, selects, the back button, the window's
-           close and menu) with its line height and its text. A tablet and up
-           only: on a phone (680px and less) they keep the Patterns' 35px. */
-        --pat-toolbar-control-height: 45px;
+    .pat-toolbar.kik-win-main-toolbar {
+        /* THE MAIN TOOLBAR'S CONTROLS ARE 40PX (Daniel, 2026-11-19): one value —
+           the Patterns' --pat-toolbar-control-height — sizes every control on
+           the bar (buttons and discs, tabs, selects, the back button, the
+           window's close and menu) with its line height and its text. The main
+           toolbar only — every other bar keeps the Patterns' 35px — and a tablet
+           and up only: on a phone (680px and less) it keeps 35px too. */
+        --pat-toolbar-control-height: 40px;
     }
+}
+
+/* THE CLOSE IS RED (Daniel, 2026-11-19): its cross and its ring, which is the
+   cross's colour at 45%, hovered or not. Set on the close alone — the menu
+   beside it shares --kik-window-control-text-colour and keeps it. */
+#app-space .application-body.state-on > .kik-win-close {
+    --kik-window-control-text-colour: var(--colour-vng-red);
+    --kik-window-control-text-colour-hover: var(--colour-vng-red);
 }
