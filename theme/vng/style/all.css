@@ -231,13 +231,11 @@
 
 @media (min-width: 681px) {
     :root {
-        /* THE TOOLBAR'S CONTROLS ARE HALF AS BIG AGAIN (Daniel, 2026-11-19): the
-           close and menu, the back arrow, the tabs and the quick functions all
-           take their height from this one token (Patterns: the button height,
-           35px), so they grow together; the line height with it, so their
-           labels stay in the middle. Form buttons keep --button-height. A tablet
-           and up only: on a phone (680px and less) they keep their 35px. */
-        --pat-toolbar-button-height: calc(var(--button-height) * 1.5);
-        --pat-toolbar-button-line-height: calc(var(--button-line-height) * 1.5);
+        /* THE TOOLBAR'S CONTROLS ARE 45PX (Daniel, 2026-11-19): one value —
+           the Patterns' --pat-toolbar-control-height — sizes every control on a
+           bar (buttons and discs, tabs, selects, the back button, the window's
+           close and menu) with its line height and its text. A tablet and up
+           only: on a phone (680px and less) they keep the Patterns' 35px. */
+        --pat-toolbar-control-height: 45px;
     }
 }
