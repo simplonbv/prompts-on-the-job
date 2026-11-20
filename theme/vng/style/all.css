@@ -293,6 +293,21 @@
     }
 }
 
+/* THE MAIN BAR'S ICONS ARE DRAWN 2px THICK (Daniel, 2026-11-20: "give
+   toolbar icons on the main toolbar in vng theme 2px stroke thickness"): the
+   house icons are 1.6 units of a 24-unit drawing, about 1.4px at the bar's
+   size, thin beside this theme's bold labels. Two screen pixels whatever the
+   icon's size (non-scaling), on the bar's controls and the window's controls
+   beside it. A filled mark (a favourite) has no stroke to thicken. */
+.pat-toolbar.kik-win-main-toolbar svg.kik-icon,
+#app-space .application-body > .kik-win-toggle svg.kik-icon {
+    stroke-width: 2px;
+}
+.pat-toolbar.kik-win-main-toolbar svg.kik-icon *,
+#app-space .application-body > .kik-win-toggle svg.kik-icon * {
+    vector-effect: non-scaling-stroke;
+}
+
 /* THE CLOSE IS RED (Daniel, 2026-11-19): a white cross on a red fill, a
    darker red under the pointer, and no ring (the cross's colour at 45% would
    be a white haze on the red). Set on the close alone — the menu beside it
