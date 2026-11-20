@@ -66,6 +66,9 @@
        ground, so every hovered toolbar button, card and tab went purple.
        No mix at all here, and the ground a touch darker than white: a quiet
        grey step. */
+    /* A bar's plain control under the pointer: its navy ink washed 16% over
+       its white plate, the menu button's own recipe (the rule is below). */
+    --vng-control-hover: color-mix(in srgb, var(--colour-vng-blue) 16%, white);
     --pat-surface-hover-mix: 0%;
     --pat-surface-hover-ground: color-mix(in srgb, black 4%, white);
     --colour-base-background: var(--colour-vng-grey-light);
@@ -266,6 +269,27 @@
     html #app-space .application-body.state-on {
         --kik-win-slot: calc(var(--vng-main-toolbar-control-height) + var(--kik-window-control-gap, var(--kik-toolbar-control-gap, var(--pat-toolbar-element-separation, 0.5rem))));
         --kik-win-toolbar-height: calc(var(--vng-main-toolbar-control-height) + 2 * var(--kik-win-inset));
+    }
+}
+
+/* A BAR'S PLAIN CONTROLS ANSWER THE POINTER (Daniel, 2026-11-20: "the non
+   .default buttons on the toolbars lack a hover style", "the menu button in
+   the window controls does have a subtle hover state. The hover state of the
+   buttons should be the same", "and also of the visibility toggle", "the
+   hover style of the active dock button isn't right").
+   The menu button answers with a wash of its own ink at 16% over what it
+   stands on. The bar's plain buttons, its icon controls (the dock's toggle)
+   and its select chips (the visibility toggle) are white plates with navy
+   ink, so theirs is the same wash on their own plate: navy at 16% on white.
+   They had none: the surface hover is white on white in this theme, and an
+   icon control over a phase's band took the band's translucent white, which
+   emptied its plate. A default button keeps its own hover. */
+@media (hover: hover) {
+    .pat-toolbar .pat-button:not(.default, [aria-disabled="true"], :disabled):hover,
+    .pat-toolbar :is(a, button).icon:not([aria-disabled="true"], :disabled):hover,
+    .pat-toolbar a.pat-select:hover {
+        background-color: var(--vng-control-hover) !important;
+        color: var(--colour-vng-blue) !important;
     }
 }
 
