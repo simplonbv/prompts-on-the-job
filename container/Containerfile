@@ -1,0 +1,75 @@
+# syntax=docker/dockerfile:1.7
+# SPDX-License-Identifier: EUPL-1.2
+#
+# Prompts on the job: Kik-OS (cornae/kik-os, with its `project` extra) and
+# Prompts (cornae/kik-prompts) on the Patterns (cornae/patterns) — three
+# packages, nothing else.
+#
+# The repositories are private until the handover, so the build needs a
+# GitHub token with read access to cornae/kik-os, cornae/patterns and
+# cornae/kik-prompts, passed as a build secret:
+#
+#   docker compose build --secret id=github_token,env=GITHUB_TOKEN
+#
+# The token is used inside one RUN step and is not left in any layer.
+FROM python:3.14-slim AS build
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git curl
+
+COPY --from=ghcr.io/astral-sh/uv:0.13.9 /uv /uvx /bin/
+ENV \
+    UV_NO_DEV=1 \
+    DJANGO_SETTINGS_MODULE=kik_os.project.settings \
+    KIK_DATA_DIR=/srv/data \
+    KIK_STATIC_ROOT=/srv/static \
+    KIK_THEME_DIR=/srv/theme/vng \
+    KIK_DEBUG=true
+
+
+COPY pyproject.toml uv.lock .python-version /srv/
+WORKDIR /srv
+RUN --mount=type=secret,id=github_token \
+    env \
+    GIT_CONFIG_COUNT=1 \
+    GIT_CONFIG_KEY_0="url.https://x-access-token:$(cat /run/secrets/github_token)@github.com/.insteadOf" \
+    GIT_CONFIG_VALUE_0="https://github.com/" \
+    uv sync --locked
+
+COPY theme/vng /srv/theme/vng
+RUN uv run -m django build_styles
+RUN uv run -m django collectstatic --noinput
+
+#######################################################################
+# Static asset server
+
+FROM docker.io/library/nginx:1.31.9 AS assets
+RUN rm /usr/share/nginx/html/index.html
+COPY --from=build /srv/static/ /usr/share/nginx/html/assets/
+
+#######################################################################
+# Application server
+
+FROM python:3.14-slim AS server
+COPY --from=ghcr.io/astral-sh/uv:0.13.9 /uv /uvx /bin/
+
+ENV \
+    UV_NO_DEV=1 \
+    PYTHONUNBUFFERED=1 \
+    DJANGO_SETTINGS_MODULE=kik_os.project.settings \
+    KIK_DATA_DIR=/srv/data \
+    KIK_STATIC_ROOT=/srv/static \
+    KIK_THEME_DIR=/srv/theme/vng \
+    HOST=localhost
+
+COPY --from=build /srv /srv
+
+COPY container/entrypoint.sh /usr/local/bin/entrypoint
+RUN chmod +x /usr/local/bin/entrypoint \
+    && useradd --system --home /srv/data potj \
+    && chown -R potj /srv/data /srv/static
+USER potj
+WORKDIR /srv/data
+EXPOSE 8000
+ENTRYPOINT ["/usr/local/bin/entrypoint"]
+CMD ["web"]
