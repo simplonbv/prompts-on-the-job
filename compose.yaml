@@ -2,9 +2,9 @@
 # and WebSockets, one process) and nginx in front. See README.md.
 #
 #   cp .env.example .env            # and fill it in
-#   docker compose --env-file versions.env --env-file .env build \
-#       --secret id=github_token,env=GITHUB_TOKEN
-#   docker compose --env-file versions.env --env-file .env up -d
+#   export GITHUB_TOKEN=...         # private dependency access; see README.md
+#   docker compose build
+#   docker compose up -d
 
 x-app: &app
   image: prompts-on-the-job:web

@@ -1,0 +1,76 @@
+name: CI
+
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: Lint Markdown
+        uses: DavidAnson/markdownlint-cli2-action@v25.1.0
+      - name: Lint Containerfile
+        uses: hadolint/hadolint-action@v3.5.0
+        with:
+          dockerfile: container/Containerfile
+
+  compose:
+    name: Test container
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.user.login != 'dependabot[bot]' &&
+      github.actor != 'dependabot[bot]'
+
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    env:
+      COMPOSE_PROJECT_NAME: potj-ci
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Prepare test environment
+        run: |
+          sed -e 's/^HOST=.*/HOST=localhost/' \
+              -e 's/^KIK_SECURE_COOKIES=.*/KIK_SECURE_COOKIES=0/' \
+              -e 's/^KIK_ADMIN_EMAIL=.*/KIK_ADMIN_EMAIL=ci-admin@example.org/' \
+              -e 's/^KIK_ADMIN_PASSWORD=.*/KIK_ADMIN_PASSWORD=ci-test-password/' \
+              .env.example > .env
+          printf '%s\n' 'ORIGIN=http://localhost:8000' >> .env
+          # Docker reads .dockerignore; keep .containerignore as the source.
+          cp .containerignore .dockerignore
+
+      - name: Build web and assets images
+        env:
+          GITHUB_TOKEN: ${{ secrets.PRIVATE_DEPS_TOKEN }}
+        run: |
+          if [[ -z "$GITHUB_TOKEN" ]]; then
+            echo '::error::Configure the PRIVATE_DEPS_TOKEN Actions secret to read the upstream repositories.'
+            exit 1
+          fi
+          docker compose -f compose.yaml build server assets
+
+      - name: Start Compose stack
+        run: docker compose -f compose.yaml up -d --no-build
+
+      - name: Verify administrator login
+        run: python3 e2e/smoke_login.py
+
+      - name: Show Compose diagnostics
+        if: failure() && hashFiles('.env') != ''
+        run: |
+          docker compose -f compose.yaml ps -a
+          docker compose -f compose.yaml logs --no-color
+
+      - name: Remove test stack and volumes
+        if: always() && hashFiles('.env') != ''
+        run: docker compose -f compose.yaml down --volumes
