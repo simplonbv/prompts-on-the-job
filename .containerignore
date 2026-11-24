@@ -1,3 +1,5 @@
 .env
+.git
+.jj
 .venv
 README.md

@@ -31,15 +31,16 @@ Which version of each goes in is pinned in [`versions.env`](versions.env).
 ## Install
 
 ```bash
-cp .env.example .env          # fill in HOST, KIK_SECRET_KEY, the passwords, the admin, the model
-export GITHUB_TOKEN=$(gh auth token)   # or a classic token with the repo scope: see below
-docker compose build --secret id=github_token,env=GITHUB_TOKEN
+# Fill in HOST, KIK_SECRET_KEY, the passwords, the admin and the model.
+cp .env.example .env
+export GITHUB_TOKEN=$(gh auth token)  # or use a classic token; see below
+docker compose build
 docker compose up -d
 ```
 
 The site answers on port 8000; put TLS in front of it (Traefik can
-[handle that automatically](https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/)). The first
-start intialises a fresh database, makes the hub (`KIK_HUB_NAME`), makes
+[handle that automatically][traefik-tls]). The first start initialises a fresh
+database, makes the hub (`KIK_HUB_NAME`), makes
 `KIK_ADMIN_EMAIL` its administrator with `KIK_ADMIN_PASSWORD`, and adds the
 language model from `KIK_LLM_*`. Every later start changes none of that.
 
@@ -53,6 +54,20 @@ collaborator invitation for each first. They belong to a personal account,
 not an organisation, so a **fine-grained** token cannot reach them: use
 `gh auth token` (after `gh auth login`) or a classic token with the `repo`
 scope. Nothing else is fetched; Kikaron is not needed.
+
+[traefik-tls]: https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/
+
+## Checks
+
+Run `prek run --all-files` (or `pre-commit run --all-files`) to lint Markdown
+and the Containerfile locally. Install Node.js 22 or later and Hadolint 2.15.1
+first. Use `prek install` to run the checks on commit.
+
+GitHub Actions lints every pull request. For same-repository pull requests
+(excluding Dependabot), it also builds both images and verifies that the test
+administrator can sign in through Compose. Set the `PRIVATE_DEPS_TOKEN`
+repository Actions secret to a token that can read the three private upstream
+repositories. The workflow uses a disposable `.env`, not your local one.
 
 ## Upgrade
 

@@ -9,11 +9,13 @@
 # GitHub token with read access to cornae/kik-os, cornae/patterns and
 # cornae/kik-prompts, passed as a build secret:
 #
-#   docker compose build --secret id=github_token,env=GITHUB_TOKEN
+#   docker compose build
 #
 # The token is used inside one RUN step and is not left in any layer.
 FROM python:3.14-slim AS build
 
+# Use the packages maintained by the base distribution.
+# hadolint ignore=DL3008
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git curl
 
@@ -37,8 +39,8 @@ RUN --mount=type=secret,id=github_token \
     uv sync --locked
 
 COPY theme/vng /srv/theme/vng
-RUN uv run -m django build_styles
-RUN uv run -m django collectstatic --noinput
+RUN uv run -m django build_styles \
+    && uv run -m django collectstatic --noinput
 
 #######################################################################
 # Static asset server
@@ -68,6 +70,8 @@ COPY container/entrypoint.sh /usr/local/bin/entrypoint
 RUN chmod +x /usr/local/bin/entrypoint \
     && useradd --system --home /srv/data potj \
     && chown -R potj /srv/data /srv/static
+# Keep the existing account and volume ownership rather than changing its UID.
+# hadolint ignore=DL3066
 USER potj
 WORKDIR /srv/data
 EXPOSE 8000
