@@ -20,11 +20,11 @@ Which version of each goes in is pinned in [`versions.env`](versions.env).
   It is the theme kik-os.cornae.com runs (Kikaron's `static/themes/vng-potj`),
   kept level with `tools/sync-theme-from-kikaron.sh`; which commit it came
   from is in [`theme/vng/SYNC.md`](theme/vng/SYNC.md).
-- [`docker/`](docker/) — the image (`Dockerfile`), what it does at start
+- [`container/`](container/) — the image (`Containerfile`), what it does at start
   (`entrypoint.sh`: migrate, build the stylesheet, gather the static files,
   make the hub, its administrator and the language model) and nginx in front.
 - [`compose.yaml`](compose.yaml) — one installation: Postgres, Redis, the app
-  (one daphne process for HTTP and the assistant's sockets) and nginx.
+  (one daphne process for HTTP and the assistant's sockets), nginx and traefik.
 - [`.env.example`](.env.example) — the settings: the host, the hub and its
   first administrator, the database, the language model, mail.
 
@@ -33,18 +33,13 @@ Which version of each goes in is pinned in [`versions.env`](versions.env).
 ```bash
 cp .env.example .env          # fill in HOST, KIK_SECRET_KEY, the passwords, the admin, the model
 export GITHUB_TOKEN=$(gh auth token)   # or a classic token with the repo scope: see below
-docker compose --env-file versions.env --env-file .env build \
-    --secret id=github_token,env=GITHUB_TOKEN
-docker compose --env-file versions.env --env-file .env up -d
+docker compose build --secret id=github_token,env=GITHUB_TOKEN
+docker compose up -d
 ```
 
-With **podman-compose**, which takes one `--env-file`, join the two first:
-`cat versions.env .env > .env.all` and pass `--env-file .env.all`. On an
-SELinux host the containers sharing the static volume run with
-`label=disable` (in `compose.yaml`), otherwise nginx cannot read it.
-
-The site answers on port 8080 (`PORT`); put TLS in front of it. The first
-start migrates a fresh database, makes the hub (`KIK_HUB_NAME`), makes
+The site answers on port 8000; put TLS in front of it (Traefik can
+[handle that automatically](https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/)). The first
+start intialises a fresh database, makes the hub (`KIK_HUB_NAME`), makes
 `KIK_ADMIN_EMAIL` its administrator with `KIK_ADMIN_PASSWORD`, and adds the
 language model from `KIK_LLM_*`. Every later start changes none of that.
 
@@ -53,7 +48,7 @@ People and their roles, the hub and the language models are managed under
 
 The repositories are private until the handover to the VNG, hence the token;
 it is used in one build step and not kept in the image. It must read
-cornae/kik-os, cornae/patterns and cornae/kik-prompts — accept the
+`cornae/kik-os`, `cornae/patterns` and `cornae/kik-prompts` — accept the
 collaborator invitation for each first. They belong to a personal account,
 not an organisation, so a **fine-grained** token cannot reach them: use
 `gh auth token` (after `gh auth login`) or a classic token with the `repo`
@@ -61,11 +56,10 @@ scope. Nothing else is fetched; Kikaron is not needed.
 
 ## Upgrade
 
-Bump `KIK_OS_REF`, `PATTERNS_REF` and/or `KIK_PROMPTS_REF` in `versions.env`
-(or `git pull` this repository), then build and `up -d --force-recreate`: the
-nginx container reads `docker/nginx.conf` when it is created, so a changed
-file only takes effect in a new container. `setup` migrates, rebuilds the stylesheet and
-gathers the static files on every start.
+Update the `rev` values in the `[tool.uv.sources]` section in
+[`pyproject.toml`](./pyproject.toml) and run `uv lock`. Then run `docker compose
+build` and `docker compose up -d --force-recreate` to build and deploy the new
+ version.
 
 ## Status
 
