@@ -105,6 +105,22 @@
     --pat-message-border-radius: var(--border-radii-medium);
     /* Wells (the Patterns' 30px) a step tighter: top, bottom and sides all follow. */
     --pat-well-padding: 20px;
+    /* The cards of a card table (the challenges, the prompts) twice the
+       platform's 16px (Daniel, 2026-11-25: "double the padding on theme
+       level for cards like challenges and prompts"; Patterns'
+       table-shape-cards reads it, Kik-OS's variables give 16px). */
+    --pat-table-cards-padding: 32px;
+    /* …and their corners the medium radius, 12px (Daniel, 2026-11-25: "set
+       the border radius of the cards to border-radii-medium"). A card
+       table's card reads --pat-x-list-border-radius (Patterns'
+       table-shape-cards), which Kik-OS's variables take from
+       --pat-card-border-radius (20px here, kept for the wells and the
+       Start page's cards). */
+    --pat-x-list-border-radius: var(--border-radii-medium);
+    /* …and more room between a card's description and its tag cloud: 1.1rem,
+       twice Kik-OS's 0.55rem (Daniel, 2026-11-25: "increase the distance
+       between description and tag cloud"; patterns/tag-cloud reads it). */
+    --pat-table-cards-chips-gap: 1.1rem;
 
     /* ── Lift: soft, small, navy-tinted ─────────────────────────────── */
     --soft-shadow: 0 2px 8px rgba(20, 52, 98, .08), 0 1px 2px rgba(20, 52, 98, .05);
