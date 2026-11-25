@@ -14,6 +14,6 @@ dependencies = [
 exclude-newer = "7 days"
 
 [tool.uv.sources]
-kik-os = { git = "https://github.com/cornae/kik-os.git", rev = "13f354803b66107c32ba41429ab09f19bc31ff7c" }
-patterns = { git = "https://github.com/cornae/patterns.git", rev = "d82cff7702d6161d8e3b5b3147f3f5e097d008c1" }
-kik-prompts = { git = "https://github.com/cornae/kik-prompts.git", rev = "abcc8c60bda3da9005791f028a53c510547209ff" }
+kik-os = { git = "https://github.com/cornae/kik-os.git", rev = "ade110c262b9a162cd1262271cc99788dec8de54" }
+patterns = { git = "https://github.com/cornae/patterns.git", rev = "1a15ba4205725bb259e596f6d450167de65ba16e" }
+kik-prompts = { git = "https://github.com/cornae/kik-prompts.git", rev = "cdb1f4c5f987d7ce1b5238daff1af052ef21fb7a" }
