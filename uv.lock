@@ -464,8 +464,8 @@ wheels = [
 
 [[package]]
 name = "kik-os"
-version = "0.39.21"
-source = { git = "https://github.com/cornae/kik-os.git?rev=v0.39.21#34502bc446ed9393ee21ec750daa8f0da4294175" }
+version = "0.39.70"
+source = { git = "https://github.com/cornae/kik-os.git?rev=13f354803b66107c32ba41429ab09f19bc31ff7c#13f354803b66107c32ba41429ab09f19bc31ff7c" }
 
 [package.optional-dependencies]
 project = [
@@ -486,7 +486,7 @@ project = [
 [[package]]
 name = "kik-prompts"
 version = "0.1.0"
-source = { git = "https://github.com/cornae/kik-prompts.git?rev=c45c6112052414b9215889b9f0ad557d8777f0e6#c45c6112052414b9215889b9f0ad557d8777f0e6" }
+source = { git = "https://github.com/cornae/kik-prompts.git?rev=abcc8c60bda3da9005791f028a53c510547209ff#abcc8c60bda3da9005791f028a53c510547209ff" }
 dependencies = [
     { name = "kik-os", extra = ["project"] },
 ]
@@ -612,8 +612,8 @@ wheels = [
 
 [[package]]
 name = "patterns"
-version = "0.3.29"
-source = { git = "https://github.com/cornae/patterns.git?rev=v0.3.29#b00015da7ec2d95c24e82148cda70bd0eb06aa48" }
+version = "0.3.68"
+source = { git = "https://github.com/cornae/patterns.git?rev=d82cff7702d6161d8e3b5b3147f3f5e097d008c1#d82cff7702d6161d8e3b5b3147f3f5e097d008c1" }
 
 [[package]]
 name = "pillow"
@@ -677,9 +677,9 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "kik-os", git = "https://github.com/cornae/kik-os.git?rev=v0.39.21" },
-    { name = "kik-prompts", git = "https://github.com/cornae/kik-prompts.git?rev=c45c6112052414b9215889b9f0ad557d8777f0e6" },
-    { name = "patterns", git = "https://github.com/cornae/patterns.git?rev=v0.3.29" },
+    { name = "kik-os", git = "https://github.com/cornae/kik-os.git?rev=13f354803b66107c32ba41429ab09f19bc31ff7c" },
+    { name = "kik-prompts", git = "https://github.com/cornae/kik-prompts.git?rev=abcc8c60bda3da9005791f028a53c510547209ff" },
+    { name = "patterns", git = "https://github.com/cornae/patterns.git?rev=d82cff7702d6161d8e3b5b3147f3f5e097d008c1" },
 ]
 
 [[package]]
