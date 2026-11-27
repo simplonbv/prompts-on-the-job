@@ -19,7 +19,7 @@ x-app: &app
     KIK_REDIS_URL: redis://redis:6379/0
   depends_on:
     db: {condition: service_healthy}
-    redis: {condition: service_started}
+    redis: {condition: service_healthy}
   volumes:
     # Uploads and the built stylesheet.
     - data:/srv/data:z
@@ -58,6 +58,10 @@ services:
     image: docker.io/library/redis:7
     labels:
       - "traefik.enable=false"
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli pong"]
+      interval: 5s
+      retries: 5
 
   assets:
     image: prompts-on-the-job:assets
@@ -91,6 +95,7 @@ services:
       - "traefik.http.services.server.loadbalancer.server.port=8000"
     depends_on:
       setup: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
       db: {condition: service_healthy}
 
 
